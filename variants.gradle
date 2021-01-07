@@ -1,0 +1,26 @@
+ext {
+    flavors = [
+            skymovies: [
+
+                    HOST_URL   : [type  : 'BuildConfig',
+                                  values: [
+                                          debug  : 'https://imdb8.p.rapidapi.com/',
+                                          release: 'https://imdb8.p.rapidapi.com/'
+                                  ]],
+
+                    RAPID_API_KEY: [type  : 'BuildConfig',
+                                  values: [
+                                          debug  : '7cbbc92115mshbe018e89a420679p1cd7fajsn68db2e689e04',
+                                          release: '7cbbc92115mshbe018e89a420679p1cd7fajsn68db2e689e04'
+                                  ]],
+                    RAPID_API_HOST: [type  : 'BuildConfig',
+                                    values: [
+                                            debug  : 'imdb8.p.rapidapi.com',
+                                            release: 'imdb8.p.rapidapi.com'
+                                    ]],
+
+
+
+            ]
+    ]
+}
