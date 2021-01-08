@@ -153,10 +153,11 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         isLoadingList = false
         loadingLL.visibility = View.GONE
 
-        if (offset - presenter.PAGE_SIZE >= 0) {
-            offset -= presenter.PAGE_SIZE
+        val newOffset = offset - presenter.PAGE_SIZE
+        if (newOffset >= 0) {
+            offset = newOffset
         } else {
-            offset = 0
+            clearScreen()
         }
 
         Snackbar.make(mainRV, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
