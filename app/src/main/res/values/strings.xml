@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Filmes Sky</string>
+    <string name="app_name">Sky Movies</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_activity_detail">DetailActivity</string>
-
-    <string name="load_error">Falha ao carregar filmes.</string>
+    <string name="load_error">Fail to load movies.</string>
     <string name="empty_message">Please, pull to load movies.</string>
+
+    <string name="detail_overview">Overview</string>
+
 
     <string name="reload">Reload</string>
 

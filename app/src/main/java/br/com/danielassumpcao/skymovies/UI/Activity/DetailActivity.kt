@@ -37,6 +37,10 @@ class DetailActivity : AppCompatActivity() {
     lateinit var durationTV: TextView
     @BindView(R.id.overviewTV)
     lateinit var overviewTV: TextView
+    @BindView(R.id.genreTV)
+    lateinit var genreTV: TextView
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,27 +49,27 @@ class DetailActivity : AppCompatActivity() {
         ButterKnife.bind(this)
         setSupportActionBar(toolbar)
 
-
-
         val movie = intent.getSerializableExtra(EXTRA_MOVIE) as? Movie
+
         setupViews(movie)
     }
 
     fun setupViews(movie: Movie?){
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setTitle(movie?.title?.title)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         titleTV.setText(movie?.title?.title)
-        releaseYearTV.setText(movie?.getFormattedReleaseDate())
+        releaseYearTV.setText(movie?.getReleaseYear())
         durationTV.setText(movie?.getHourTime())
         overviewTV.setText(movie?.plotOutline?.text)
+        genreTV.setText(movie?.genres?.first())
 
         Picasso
             .get()
             .load(movie?.title?.image?.url)
             .placeholder(R.drawable.sky_placeholder)
             .fit()
-            .centerInside()
+            .centerCrop()
             .into(coverIV);
 
     }

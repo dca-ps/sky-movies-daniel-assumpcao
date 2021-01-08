@@ -38,4 +38,9 @@ class Movie : Serializable {
         return date.format(formatter)
     }
 
+    fun getReleaseYear(): String{
+        val date = LocalDate.parse(releaseDate)
+        return date.year.toString()
+    }
+
 }

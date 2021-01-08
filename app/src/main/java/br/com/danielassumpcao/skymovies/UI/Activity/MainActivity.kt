@@ -6,7 +6,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -45,7 +44,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     lateinit var adapter: MainAdapter
 
     var offset = 0
-    var totalItens = 2000
+    var totalItens = Int.MAX_VALUE
     var isLoadingList = false
 
 
@@ -77,9 +76,8 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager?
                 if (!isLoadingList) {
-                    if (gridLayoutManager?.findLastVisibleItemPositions(null)
-                            ?.last() == movies.size - 1
-                    ) {
+                    val lastVisible = getLastMovieScreen(gridLayoutManager?.findLastCompletelyVisibleItemPositions(null))
+                    if (lastVisible == movies.size - 1) {
                         isLoadingList = true
                         loadItens()
                     }
@@ -123,9 +121,13 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         isLoadingList = false
         loadingLL.visibility = View.GONE
 
-        offset -= presenter.PAGE_SIZE
+        if (offset - presenter.PAGE_SIZE >= 0) {
+            offset -= presenter.PAGE_SIZE
+        } else {
+            offset = 0
+        }
 
-        Snackbar.make(mainRV, R.string.load_error, Snackbar.LENGTH_SHORT)
+        Snackbar.make(mainRV, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
             .setAction(R.string.reload, View.OnClickListener {
                 loadItens()
             }).show()
@@ -141,6 +143,12 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         } else {
             loadingLL.visibility = View.GONE
         }
+    }
+
+
+
+    fun getLastMovieScreen(movieList: IntArray?): Int?{
+        return movieList?.max()
     }
 
 }
