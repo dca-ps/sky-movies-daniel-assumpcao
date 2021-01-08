@@ -7,6 +7,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class Movie : Serializable {
+
     @SerializedName("id")
     lateinit var id: String
 
@@ -23,22 +24,19 @@ class Movie : Serializable {
     lateinit var plotOutline: PlotOutline
 
 
-
-
-
     fun getHourTime(): String {
         val durationMinutes: Int = title.duration.toInt()
         return (durationMinutes / 60).toString() + "h " + durationMinutes % 60 + "min"
     }
 
-    fun getFormattedReleaseDate(): String{
+    fun getFormattedReleaseDate(): String {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val date = LocalDate.parse(releaseDate)
 
         return date.format(formatter)
     }
 
-    fun getReleaseYear(): String{
+    fun getReleaseYear(): String {
         val date = LocalDate.parse(releaseDate)
         return date.year.toString()
     }

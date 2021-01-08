@@ -13,29 +13,29 @@ class MainPresenter {
 
     val PAGE_SIZE = 4
 
-    var totalPage : Int = 0
+    var totalPage: Int = 0
     var totalMovies: Int = 0
 
-    lateinit var allMoviesNames : List<String>
-    lateinit var moviesDetail : ArrayList<Movie>
+    lateinit var allMoviesNames: List<String>
+    lateinit var moviesDetail: ArrayList<Movie>
 
 
-    fun getMovies(offset: Int, listener: MoviesListener){
-        if(this::allMoviesNames.isInitialized && allMoviesNames.size > 0){
-            val pageList: List<String>  = allMoviesNames.subList(offset, offset+PAGE_SIZE)
+    fun getMovies(offset: Int, listener: MoviesListener) {
+        if (this::allMoviesNames.isInitialized && allMoviesNames.size > 0) {
+            val pageList: List<String> = allMoviesNames.subList(offset, offset + PAGE_SIZE)
             totalPage = pageList.size
             moviesDetail.clear()
-            for(movie in pageList){
+            for (movie in pageList) {
                 getMovieDetail(sanitizeMovieId(movie), listener)
             }
 
-        }else{
+        } else {
             getMoviesNames(listener)
         }
 
     }
 
-    fun sanitizeMovieId(movie: String): String{
+    fun sanitizeMovieId(movie: String): String {
         return movie.removePrefix("/title/").removeSuffix("/")
     }
 
@@ -65,7 +65,7 @@ class MainPresenter {
     }
 
 
-    private fun getMovieDetail(movie: String, listener: MoviesListener){
+    private fun getMovieDetail(movie: String, listener: MoviesListener) {
         val service: MoviesService = RetrofitConfig().getMoviesService()
 
         val call = service.getMovieDetail(movie)
@@ -74,7 +74,7 @@ class MainPresenter {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
                 response.body()?.let {
                     moviesDetail.add(it)
-                    if(moviesDetail.size == totalPage){
+                    if (moviesDetail.size == totalPage) {
                         listener.onMoviesSucess(moviesDetail, totalMovies)
                     }
                 } ?: run {
@@ -87,4 +87,5 @@ class MainPresenter {
             }
         })
     }
+
 }

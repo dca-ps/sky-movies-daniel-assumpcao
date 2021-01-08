@@ -44,6 +44,9 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     var totalItens = Int.MAX_VALUE
     var isLoadingList = false
 
+    /*
+    * Lifecycle
+    * */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,12 +62,16 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
 
+    /*
+    * Logic Functions
+    * */
+
     fun setupViews() {
         swipeLayout.setOnRefreshListener {
-            if(!isLoadingList){
+            if (!isLoadingList) {
                 clearScreen()
                 loadItens()
-            }else{
+            } else {
                 swipeLayout.isRefreshing = false
             }
         }
@@ -77,7 +84,9 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager?
                 if (!isLoadingList) {
-                    val lastVisible = getLastMovieScreen(gridLayoutManager?.findLastCompletelyVisibleItemPositions(null))
+                    val lastVisible = getLastMovieScreen(
+                        gridLayoutManager?.findLastCompletelyVisibleItemPositions(null)
+                    )
                     if (lastVisible == movies.size - 1) {
                         isLoadingList = true
                         loadItens()
@@ -115,11 +124,11 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
 
-    fun getLastMovieScreen(movieList: IntArray?): Int?{
+    fun getLastMovieScreen(movieList: IntArray?): Int? {
         return movieList?.maxOrNull()
     }
 
-    fun clearScreen(){
+    fun clearScreen() {
         offset = 0
         this.movies.clear()
         this.adapter.notifyDataSetChanged()

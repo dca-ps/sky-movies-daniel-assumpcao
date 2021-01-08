@@ -14,9 +14,10 @@ import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 
 class DetailActivity : AppCompatActivity() {
+
     private final val EXTRA_MOVIE: String = "EXTRA_MOVIE"
 
-    fun startActivity(callerActivity: Activity, movie: Movie){
+    fun startActivity(callerActivity: Activity, movie: Movie) {
         val intent = Intent(callerActivity, this::class.java).apply {
             putExtra(EXTRA_MOVIE, movie)
         }
@@ -31,17 +32,18 @@ class DetailActivity : AppCompatActivity() {
 
     @BindView(R.id.titleTV)
     lateinit var titleTV: TextView
+
     @BindView(R.id.releaseYearTV)
     lateinit var releaseYearTV: TextView
+
     @BindView(R.id.durationTV)
     lateinit var durationTV: TextView
+
     @BindView(R.id.overviewTV)
     lateinit var overviewTV: TextView
+
     @BindView(R.id.genreTV)
     lateinit var genreTV: TextView
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
         setupViews(movie)
     }
 
-    fun setupViews(movie: Movie?){
+    fun setupViews(movie: Movie?) {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -78,6 +80,5 @@ class DetailActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
-
 
 }

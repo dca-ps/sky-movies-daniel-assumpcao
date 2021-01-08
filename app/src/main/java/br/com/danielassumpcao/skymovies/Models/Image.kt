@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class Image : Serializable {
+
     @SerializedName("height")
     lateinit var height: String
 
@@ -12,7 +13,4 @@ class Image : Serializable {
 
     @SerializedName("url")
     lateinit var url: String
-
-
-
 }

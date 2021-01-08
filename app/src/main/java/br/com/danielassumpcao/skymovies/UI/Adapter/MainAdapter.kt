@@ -17,7 +17,6 @@ import com.squareup.picasso.Picasso
 class MainAdapter(val movies: List<Movie>, val context: Context, val listener: MovieClickListener) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_main, parent, false)
         return ViewHolder(view)
@@ -40,19 +39,15 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
                 thisMovie
             )
         })
-
-
     }
 
     override fun getItemCount(): Int {
         return movies.size
     }
 
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var movieTitleTV: TextView
         var movieCoverIV: ImageView
-
 
         init {
             movieTitleTV = itemView.findViewById(R.id.movieTitleTV)
@@ -61,4 +56,5 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
 
         }
     }
+
 }

@@ -13,4 +13,5 @@ class Title : Serializable {
 
     @SerializedName("image")
     lateinit var image: Image
+
 }

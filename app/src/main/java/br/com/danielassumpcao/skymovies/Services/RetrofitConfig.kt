@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 
 
 class RetrofitConfig {
+
     var retrofit: Retrofit;
 
     init {
@@ -43,10 +44,12 @@ class RetrofitConfig {
             .client(httpClient.build())
             .build()
 
-
     }
 
     fun getMoviesService(): MoviesService {
+
         return this.retrofit.create(MoviesService::class.java)
+
     }
+
 }
