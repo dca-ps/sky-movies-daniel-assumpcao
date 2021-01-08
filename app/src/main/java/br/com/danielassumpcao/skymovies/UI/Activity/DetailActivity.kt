@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 
 class DetailActivity : AppCompatActivity() {
 
-    private final val EXTRA_MOVIE: String = "EXTRA_MOVIE"
+    private val EXTRA_MOVIE: String = "EXTRA_MOVIE"
 
     fun startActivity(callerActivity: Activity, movie: Movie) {
         val intent = Intent(callerActivity, this::class.java).apply {
@@ -24,11 +24,11 @@ class DetailActivity : AppCompatActivity() {
         callerActivity.startActivity(intent)
     }
 
-    @BindView(R.id.toolbar)
-    lateinit var toolbar: Toolbar
-
     @BindView(R.id.coverIV)
     lateinit var coverIV: ImageView
+
+    @BindView(R.id.backButton)
+    lateinit var backButton: ImageView
 
     @BindView(R.id.titleTV)
     lateinit var titleTV: TextView
@@ -49,7 +49,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         ButterKnife.bind(this)
-        setSupportActionBar(toolbar)
 
         val movie = intent.getSerializableExtra(EXTRA_MOVIE) as? Movie
 
@@ -57,13 +56,25 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun setupViews(movie: Movie?) {
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
+
+        backButton.setOnClickListener{
+            onBackPressed()
+        }
         titleTV.setText(movie?.title?.title)
         releaseYearTV.setText(movie?.getReleaseYear())
         durationTV.setText(movie?.getHourTime())
-        overviewTV.setText(movie?.plotOutline?.text)
+
+        lateinit var overViewText: String
+
+        movie?.plotOutline?.let{
+            overViewText = it.text
+        } ?: run {
+            overViewText = "No overview"
+        }
+
+
+        overviewTV.setText(overViewText)
         genreTV.setText(movie?.genres?.first())
 
         Picasso
@@ -82,3 +93,5 @@ class DetailActivity : AppCompatActivity() {
     }
 
 }
+
+

@@ -34,11 +34,9 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
             .centerInside()
             .into(holder.movieCoverIV);
 
-        holder.movieCoverIV.setOnClickListener(View.OnClickListener {
-            listener.onMovieClickListener(
-                thisMovie
-            )
-        })
+        holder.movieCoverIV.setOnClickListener {
+            listener.onMovieClickListener(thisMovie)
+        }
     }
 
     override fun getItemCount(): Int {

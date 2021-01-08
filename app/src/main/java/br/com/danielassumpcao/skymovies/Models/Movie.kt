@@ -21,7 +21,7 @@ class Movie : Serializable {
     lateinit var releaseDate: String
 
     @SerializedName("plotOutline")
-    lateinit var plotOutline: PlotOutline
+    var plotOutline: PlotOutline? = null
 
 
     fun getHourTime(): String {
