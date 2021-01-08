@@ -10,8 +10,8 @@ ext {
 
                     RAPID_API_KEY: [type  : 'BuildConfig',
                                   values: [
-                                          debug  : '579e3e1991mshf0fa373d5f552e6p1bb5cejsnee5db587acfd',
-                                          release: '579e3e1991mshf0fa373d5f552e6p1bb5cejsnee5db587acfd'
+                                          debug  : '7659340ecdmsha77a295dc29d676p19aa73jsn42d3bb1e0da6',
+                                          release: '7659340ecdmsha77a295dc29d676p19aa73jsn42d3bb1e0da6'
                                   ]],
                     RAPID_API_HOST: [type  : 'BuildConfig',
                                     values: [

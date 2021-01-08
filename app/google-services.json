@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "713827466866",
+    "project_id": "skymovies-9765f",
+    "storage_bucket": "skymovies-9765f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713827466866:android:7af1493ebfeefc3885cceb",
+        "android_client_info": {
+          "package_name": "br.com.danielassumpcao.skymovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713827466866-2d3l7hua8aer4hp7o7c825qfk46md6cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYeSZURfjcyekzMYt1MiyOxLvzHHTxhz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713827466866-2d3l7hua8aer4hp7o7c825qfk46md6cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

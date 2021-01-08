@@ -30,9 +30,6 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     @BindView(R.id.swipeLayout)
     lateinit var swipeLayout: SwipeRefreshLayout
 
-    @BindView(R.id.emptyTV)
-    lateinit var emptyTV: TextView
-
     @BindView(R.id.loadingLL)
     lateinit var loadingLL: LinearLayout
 
@@ -58,14 +55,18 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         movies = mutableListOf()
 
         setupViews()
+        loadItens()
     }
 
 
     fun setupViews() {
         swipeLayout.setOnRefreshListener {
-            offset = 0
-            this.movies.clear()
-            loadItens()
+            if(!isLoadingList){
+                clearScreen()
+                loadItens()
+            }else{
+                swipeLayout.isRefreshing = false
+            }
         }
         this.adapter = MainAdapter(movies, this, this)
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -105,9 +106,27 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         isLoadingList = false
     }
 
+    fun onLoadingPage(isLoading: Boolean) {
+        if (isLoading) {
+            loadingLL.visibility = View.VISIBLE
+        } else {
+            loadingLL.visibility = View.GONE
+        }
+    }
+
+
+    fun getLastMovieScreen(movieList: IntArray?): Int?{
+        return movieList?.maxOrNull()
+    }
+
+    fun clearScreen(){
+        offset = 0
+        this.movies.clear()
+        this.adapter.notifyDataSetChanged()
+    }
+
     override fun onMoviesSucess(movies: List<Movie>, totalItens: Int) {
         this.totalItens = totalItens
-        emptyTV.visibility = View.GONE
         stopMiddleScreenLoading()
 
         this.movies.addAll(movies)
@@ -135,20 +154,6 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     override fun onMovieClickListener(clickedMovie: Movie) {
         DetailActivity().startActivity(this, clickedMovie)
-    }
-
-    fun onLoadingPage(isLoading: Boolean) {
-        if (isLoading) {
-            loadingLL.visibility = View.VISIBLE
-        } else {
-            loadingLL.visibility = View.GONE
-        }
-    }
-
-
-
-    fun getLastMovieScreen(movieList: IntArray?): Int?{
-        return movieList?.max()
     }
 
 }
