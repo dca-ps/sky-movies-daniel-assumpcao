@@ -70,7 +70,7 @@ class DetailActivity : AppCompatActivity() {
         movie?.plotOutline?.let{
             overViewText = it.text
         } ?: run {
-            overViewText = "No overview"
+            overViewText = getString(R.string.detail_no_overview)
         }
 
 

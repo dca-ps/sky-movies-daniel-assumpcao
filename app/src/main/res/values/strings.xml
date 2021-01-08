@@ -6,6 +6,8 @@
     <string name="empty_message">Please, pull to load movies.</string>
 
     <string name="detail_overview">Overview</string>
+    <string name="detail_no_overview">No overview</string>
+
 
 
     <string name="reload">Reload</string>
