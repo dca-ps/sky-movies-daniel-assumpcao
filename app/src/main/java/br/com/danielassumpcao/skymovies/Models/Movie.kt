@@ -28,7 +28,7 @@ class Movie : Serializable {
 
     fun getHourTime(): String {
         val durationMinutes: Int = title.duration.toInt()
-        return (durationMinutes / 60).toString() + "h " + durationMinutes % 60 + "m"
+        return (durationMinutes / 60).toString() + "h " + durationMinutes % 60 + "min"
     }
 
     fun getFormattedReleaseDate(): String{

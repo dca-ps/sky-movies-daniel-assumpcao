@@ -11,16 +11,35 @@ import retrofit2.Response
 
 class MainPresenter {
 
-    var totalPage : Int = 0
-    var totalMovies: Int = 0
-    lateinit var allMoviesNames : List<String>
-
-    lateinit var moviesDetail : ArrayList<Movie>
     val PAGE_SIZE = 4
 
+    var totalPage : Int = 0
+    var totalMovies: Int = 0
+
+    lateinit var allMoviesNames : List<String>
+    lateinit var moviesDetail : ArrayList<Movie>
 
 
-    fun getMoviesNames(listener: MoviesListener) {
+    fun getMovies(offset: Int, listener: MoviesListener){
+        if(this::allMoviesNames.isInitialized && allMoviesNames.size > 0){
+            val pageList: List<String>  = allMoviesNames.subList(offset, offset+PAGE_SIZE)
+            totalPage = pageList.size
+            moviesDetail.clear()
+            for(movie in pageList){
+                getMovieDetail(sanitizeMovieId(movie), listener)
+            }
+
+        }else{
+            getMoviesNames(listener)
+        }
+
+    }
+
+    fun sanitizeMovieId(movie: String): String{
+        return movie.removePrefix("/title/").removeSuffix("/")
+    }
+
+    private fun getMoviesNames(listener: MoviesListener) {
         val service: MoviesService = RetrofitConfig().getMoviesService()
 
         val call = service.getPopularMovies()
@@ -46,23 +65,7 @@ class MainPresenter {
     }
 
 
-    fun getMovies(offset: Int, listener: MoviesListener){
-        if(this::allMoviesNames.isInitialized && allMoviesNames.size > 0){
-            val pageList: List<String>  = allMoviesNames.subList(offset, offset+PAGE_SIZE)
-            totalPage = pageList.size
-            moviesDetail.clear()
-            for(movie in pageList){
-                getMovieDetail(movie.removePrefix("/title/").removeSuffix("/"), listener)
-            }
-
-        }else{
-            getMoviesNames(listener)
-        }
-
-    }
-
-
-    fun getMovieDetail(movie: String, listener: MoviesListener){
+    private fun getMovieDetail(movie: String, listener: MoviesListener){
         val service: MoviesService = RetrofitConfig().getMoviesService()
 
         val call = service.getMovieDetail(movie)

@@ -125,6 +125,10 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         this.adapter.notifyDataSetChanged()
     }
 
+    /*
+    * Override Functions
+    * */
+
     override fun onMoviesSucess(movies: List<Movie>, totalItens: Int) {
         this.totalItens = totalItens
         stopMiddleScreenLoading()
