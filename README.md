@@ -14,3 +14,4 @@ Em relação a integração da solução, optei por paginar o dataset em página
 Ao abrir o aplicativo pela primeira vez, é feita uma requisição ao endpoint "/title/get-most-popular-movies" afim de pegar os ids dos filmes a serem listados. 
 Após isso, fazemos a requisição ao endpoint "/title/get-overview-details" com cada um dos ids dos filmes, limitados por página, afim de pegar os detalhes de cada filme para mostrá-los em tela.
 Optei por não implementar uma persistência de dados visto de se tratar de um ranking que pode ser alterado a qualquer momento.
+Para melhor entendimento do comportamento do usuário e possíveis erros gerados na experiência de uso, implementei uma instância do firebase, atendendo a melhoria contínua do aplicativo. 
