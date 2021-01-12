@@ -1,8 +1,7 @@
-package br.com.danielassumpcao.skymovies.Models
+package br.com.danielassumpcao.skymovies.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.text.DateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

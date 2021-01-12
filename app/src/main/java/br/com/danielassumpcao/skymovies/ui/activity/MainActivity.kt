@@ -1,38 +1,24 @@
-package br.com.danielassumpcao.skymovies.UI.Activity
+package br.com.danielassumpcao.skymovies.ui.activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import br.com.danielassumpcao.skymovies.Models.Movie
 import br.com.danielassumpcao.skymovies.R
-import br.com.danielassumpcao.skymovies.UI.Adapter.MainAdapter
-import br.com.danielassumpcao.skymovies.UI.Listeners.MovieClickListener
-import br.com.danielassumpcao.skymovies.UI.Listeners.MoviesListener
-import br.com.danielassumpcao.skymovies.UI.Presenter.MainPresenter
-import butterknife.BindView
-import butterknife.ButterKnife
+import br.com.danielassumpcao.skymovies.databinding.ActivityMainBinding
+import br.com.danielassumpcao.skymovies.models.Movie
+import br.com.danielassumpcao.skymovies.ui.adapter.MainAdapter
+import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
+import br.com.danielassumpcao.skymovies.ui.listeners.MoviesListener
+import br.com.danielassumpcao.skymovies.ui.presenter.MainPresenter
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
-    @BindView(R.id.toolbar)
-    lateinit var toolbar: Toolbar
 
-    @BindView(R.id.recycleView)
-    lateinit var mainRV: RecyclerView
 
-    @BindView(R.id.swipeLayout)
-    lateinit var swipeLayout: SwipeRefreshLayout
-
-    @BindView(R.id.loadingLL)
-    lateinit var loadingLL: LinearLayout
-
+    private lateinit var binding: ActivityMainBinding
 
     lateinit var presenter: MainPresenter
 
@@ -50,9 +36,10 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
-        setSupportActionBar(toolbar)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        setSupportActionBar(binding.toolbar)
 
         presenter = MainPresenter()
         movies = mutableListOf()
@@ -67,19 +54,19 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     * */
 
     fun setupViews() {
-        swipeLayout.setOnRefreshListener {
+        binding.swipeLayout.setOnRefreshListener {
             if (!isLoadingList) {
                 clearScreen()
                 loadItens()
             } else {
-                swipeLayout.isRefreshing = false
+                binding.swipeLayout.isRefreshing = false
             }
         }
         this.adapter = MainAdapter(movies, this, this)
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        mainRV.layoutManager = layoutManager
-        mainRV.adapter = this.adapter
-        mainRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.mainRV.layoutManager = layoutManager
+        binding.mainRV.adapter = this.adapter
+        binding.mainRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager?
@@ -101,7 +88,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
             if (movies.size > 0 && isLoadingList) {
                 onLoadingPage(true)
             } else {
-                swipeLayout.isRefreshing = true
+                binding.swipeLayout.isRefreshing = true
             }
             presenter.getMovies(offset, this)
             offset += presenter.PAGE_SIZE
@@ -117,9 +104,9 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     fun onLoadingPage(isLoading: Boolean) {
         if (isLoading) {
-            loadingLL.visibility = View.VISIBLE
+            binding.loadingLL.visibility = View.VISIBLE
         } else {
-            loadingLL.visibility = View.GONE
+            binding.loadingLL.visibility = View.GONE
         }
     }
 
@@ -144,14 +131,14 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
         this.movies.addAll(movies)
         this.adapter.notifyDataSetChanged()
-        this.swipeLayout.isRefreshing = false
+        this.binding.swipeLayout.isRefreshing = false
 
     }
 
     override fun onMoviesFailure() {
-        this.swipeLayout.isRefreshing = false
+        this.binding.swipeLayout.isRefreshing = false
         isLoadingList = false
-        loadingLL.visibility = View.GONE
+        binding.loadingLL.visibility = View.GONE
 
         val newOffset = offset - presenter.PAGE_SIZE
         if (newOffset >= 0) {
@@ -160,7 +147,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
             clearScreen()
         }
 
-        Snackbar.make(mainRV, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(binding.mainRV, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
             .setAction(R.string.reload, View.OnClickListener {
                 loadItens()
             }).show()

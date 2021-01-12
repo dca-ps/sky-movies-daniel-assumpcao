@@ -1,6 +1,6 @@
-package br.com.danielassumpcao.skymovies.UI.Listeners
+package br.com.danielassumpcao.skymovies.ui.listeners
 
-import br.com.danielassumpcao.skymovies.Models.Movie
+import br.com.danielassumpcao.skymovies.models.Movie
 
 interface MoviesListener {
 

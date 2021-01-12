@@ -1,10 +1,9 @@
-package br.com.danielassumpcao.skymovies.UI.Presenter
+package br.com.danielassumpcao.skymovies.ui.presenter
 
-import br.com.danielassumpcao.skymovies.Models.Movie
-import br.com.danielassumpcao.skymovies.Services.MoviesService
-import br.com.danielassumpcao.skymovies.Services.RetrofitConfig
-import br.com.danielassumpcao.skymovies.UI.Activity.MainActivity
-import br.com.danielassumpcao.skymovies.UI.Listeners.MoviesListener
+import br.com.danielassumpcao.skymovies.models.Movie
+import br.com.danielassumpcao.skymovies.services.MoviesService
+import br.com.danielassumpcao.skymovies.services.RetrofitConfig
+import br.com.danielassumpcao.skymovies.ui.listeners.MoviesListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

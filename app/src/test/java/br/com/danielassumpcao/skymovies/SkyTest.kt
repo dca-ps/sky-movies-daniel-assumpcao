@@ -1,9 +1,9 @@
 package br.com.danielassumpcao.skymovies
 
-import br.com.danielassumpcao.skymovies.Models.Movie
-import br.com.danielassumpcao.skymovies.Models.Title
-import br.com.danielassumpcao.skymovies.UI.Activity.MainActivity
-import br.com.danielassumpcao.skymovies.UI.Presenter.MainPresenter
+import br.com.danielassumpcao.skymovies.models.Movie
+import br.com.danielassumpcao.skymovies.models.Title
+import br.com.danielassumpcao.skymovies.ui.activity.MainActivity
+import br.com.danielassumpcao.skymovies.ui.presenter.MainPresenter
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

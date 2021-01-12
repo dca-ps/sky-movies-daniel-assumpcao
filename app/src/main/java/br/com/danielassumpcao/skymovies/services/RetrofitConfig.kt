@@ -1,4 +1,4 @@
-package br.com.danielassumpcao.skymovies.Services
+package br.com.danielassumpcao.skymovies.services
 
 import br.com.danielassumpcao.skymovies.BuildConfig
 import okhttp3.Interceptor
@@ -27,7 +27,7 @@ class RetrofitConfig {
             .readTimeout(5, TimeUnit.MINUTES);
         httpClient.addInterceptor(object : Interceptor {
             @Throws(IOException::class)
-            override fun intercept(chain: Interceptor.Chain): Response? {
+            override fun intercept(chain: Interceptor.Chain): Response {
                 val request: Request = chain
                     .request()
                     .newBuilder()

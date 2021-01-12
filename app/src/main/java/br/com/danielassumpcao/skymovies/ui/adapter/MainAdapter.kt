@@ -1,18 +1,16 @@
-package br.com.danielassumpcao.skymovies.UI.Adapter
+package br.com.danielassumpcao.skymovies.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import br.com.danielassumpcao.skymovies.Models.Movie
 import br.com.danielassumpcao.skymovies.R
-import br.com.danielassumpcao.skymovies.UI.Listeners.MovieClickListener
-import com.squareup.picasso.Picasso
+import br.com.danielassumpcao.skymovies.models.Movie
+import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
+import com.bumptech.glide.Glide
 
 class MainAdapter(val movies: List<Movie>, val context: Context, val listener: MovieClickListener) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
@@ -25,12 +23,10 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val thisMovie: Movie = movies.get(position)
 
-        holder.movieTitleTV.setText(thisMovie.title.title)
-        Picasso
-            .get()
+        holder.movieTitleTV.text = thisMovie.title.title
+        Glide.with(context)
             .load(thisMovie.title.image.url)
             .placeholder(R.drawable.sky_placeholder)
-            .fit()
             .centerInside()
             .into(holder.movieCoverIV);
 
@@ -44,15 +40,9 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var movieTitleTV: TextView
-        var movieCoverIV: ImageView
+        var movieTitleTV: TextView = itemView.findViewById(R.id.movieTitleTV)
+        var movieCoverIV: ImageView = itemView.findViewById(R.id.movieCoverIV)
 
-        init {
-            movieTitleTV = itemView.findViewById(R.id.movieTitleTV)
-            movieCoverIV = itemView.findViewById(R.id.movieCoverIV)
-
-
-        }
     }
 
 }

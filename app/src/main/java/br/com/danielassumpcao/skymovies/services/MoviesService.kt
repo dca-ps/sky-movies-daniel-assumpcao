@@ -1,6 +1,6 @@
-package br.com.danielassumpcao.skymovies.Services
+package br.com.danielassumpcao.skymovies.services
 
-import br.com.danielassumpcao.skymovies.Models.Movie
+import br.com.danielassumpcao.skymovies.models.Movie
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
