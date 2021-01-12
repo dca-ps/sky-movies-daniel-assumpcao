@@ -7,12 +7,12 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="@dimen/std_padding">
 
     <ImageView
         android:id="@+id/movieCoverIV"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/cover_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,9 +22,8 @@
         android:id="@+id/movieTitleTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="12sp"
-        android:textStyle="bold"
+        android:layout_marginTop="@dimen/std_padding"
+        android:theme="@style/MovieCoverTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/movieCoverIV"
         app:layout_constraintStart_toStartOf="@+id/movieCoverIV"

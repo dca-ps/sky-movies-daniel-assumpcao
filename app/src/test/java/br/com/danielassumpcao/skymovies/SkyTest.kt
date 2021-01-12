@@ -2,8 +2,8 @@ package br.com.danielassumpcao.skymovies
 
 import br.com.danielassumpcao.skymovies.models.Movie
 import br.com.danielassumpcao.skymovies.models.Title
-import br.com.danielassumpcao.skymovies.ui.activity.MainActivity
-import br.com.danielassumpcao.skymovies.ui.presenter.MainPresenter
+import br.com.danielassumpcao.skymovies.ui.activity.MovieActivity
+import br.com.danielassumpcao.skymovies.ui.presenter.MoviePresenter
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,7 +25,7 @@ class SkyTest {
 
     @Test
     fun sanitizeMovieIdTest() {
-        val presenter = MainPresenter()
+        val presenter = MoviePresenter()
 
         val sanitizedId = presenter.sanitizeMovieId(movieTest.id)
 
@@ -34,7 +34,7 @@ class SkyTest {
 
     @Test
     fun getLastMovieScreenTest() {
-        val activity = MainActivity()
+        val activity = MovieActivity()
         val numbersArray = intArrayOf(10,15,89,45,12)
 
         val maxNumber = activity.getLastMovieScreen(numbersArray)

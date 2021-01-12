@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="360dp" />
+            app:layout_constraintGuide_begin="@dimen/guideline_height" />
 
         <ImageView
             android:id="@+id/coverIV"
@@ -38,32 +38,30 @@
 
         <TextView
             android:id="@+id/titleTV"
-            android:textColor="@color/icons"
-            android:layout_marginVertical="8dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:layout_marginVertical="@dimen/std_padding"
+            android:layout_marginEnd="@dimen/margin_detail_title"
+            android:theme="@style/MovieDetailTitle"
+            app:layout_constraintBottom_toTopOf="@+id/releaseYearTV"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/releaseYearTV"
-            app:layout_constraintBottom_toTopOf="@+id/releaseYearTV" />
+            app:layout_constraintStart_toStartOf="@+id/releaseYearTV" />
 
         <TextView
             android:id="@+id/releaseYearTV"
             android:layout_width="0dp"
-            android:textColor="@color/icons"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            app:layout_constraintStart_toStartOf="@+id/genreTV"
-            app:layout_constraintBottom_toTopOf="@+id/genreTV" />
+            android:layout_marginVertical="@dimen/std_padding"
+            android:theme="@style/MovieDetailText"
+            app:layout_constraintBottom_toTopOf="@+id/genreTV"
+            app:layout_constraintStart_toStartOf="@+id/genreTV" />
 
         <TextView
             android:id="@+id/durationTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:textColor="@color/icons"
+            android:layout_marginHorizontal="@dimen/std_padding"
+            android:theme="@style/MovieDetailText"
             app:layout_constraintBottom_toBottomOf="@+id/releaseYearTV"
             app:layout_constraintStart_toEndOf="@+id/releaseYearTV"
             app:layout_constraintTop_toTopOf="@+id/releaseYearTV" />
@@ -72,10 +70,9 @@
             android:id="@+id/genreTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="8dp"
-            android:textStyle="bold"
-            android:textColor="@color/primaryDark"
+            android:layout_marginHorizontal="@dimen/margin_detail_text"
+            android:layout_marginVertical="@dimen/std_padding"
+            android:theme="@style/MovieDetailGenre"
             app:layout_constraintBottom_toBottomOf="@+id/coverIV"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -83,36 +80,35 @@
             android:id="@+id/overviewTitleTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/margin_detail_text"
             android:text="@string/detail_overview"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@color/icons"
-            app:layout_constraintTop_toBottomOf="@+id/coverIV"
+            android:theme="@style/MovieDetailSubtitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/coverIV" />
 
         <TextView
             android:id="@+id/overviewTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/margin_detail_text"
             android:textColor="@color/icons"
-            app:layout_constraintTop_toBottomOf="@+id/overviewTitleTV"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/overviewTitleTV" />
 
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:elevation="5dp"
+            android:layout_width="@dimen/back_size"
+            android:layout_height="@dimen/back_size"
+            android:layout_marginStart="@dimen/margin_detail_text"
+            android:layout_marginTop="@dimen/margin_detail_text"
+            android:elevation="@dimen/back_elevation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/abc_vector_test" />
+            app:srcCompat="@drawable/abc_vector_test"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

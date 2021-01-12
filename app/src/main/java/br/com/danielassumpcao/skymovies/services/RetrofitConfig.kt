@@ -38,7 +38,7 @@ object RetrofitConfig {
             }
         })
 
-        this.retrofit = Retrofit.Builder()
+        retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.HOST_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
@@ -48,7 +48,7 @@ object RetrofitConfig {
 
     fun getMoviesService(): MoviesService {
 
-        return this.retrofit.create(MoviesService::class.java)
+        return retrofit.create(MoviesService::class.java)
 
     }
 

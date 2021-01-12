@@ -12,8 +12,8 @@ import br.com.danielassumpcao.skymovies.models.Movie
 import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
 import com.bumptech.glide.Glide
 
-class MainAdapter(val movies: List<Movie>, val context: Context, val listener: MovieClickListener) :
-    RecyclerView.Adapter<MainAdapter.ViewHolder>() {
+class MovieAdapter(val movies: MutableList<Movie>, val context: Context, val listener: MovieClickListener) :
+    RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_main, parent, false)
@@ -39,10 +39,22 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
         return movies.size
     }
 
+    fun addMovies(newMovies: List<Movie>){
+        movies.addAll(movies)
+        notifyDataSetChanged()
+    }
+
+    fun clear(){
+        movies.clear()
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val movieTitleTV: TextView = itemView.findViewById(R.id.movieTitleTV)
         val movieCoverIV: ImageView = itemView.findViewById(R.id.movieCoverIV)
 
     }
+
+
 
 }

@@ -6,25 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import br.com.danielassumpcao.skymovies.R
-import br.com.danielassumpcao.skymovies.databinding.ActivityMainBinding
+import br.com.danielassumpcao.skymovies.databinding.ActivityMovieBinding
 import br.com.danielassumpcao.skymovies.models.Movie
-import br.com.danielassumpcao.skymovies.ui.adapter.MainAdapter
+import br.com.danielassumpcao.skymovies.ui.adapter.MovieAdapter
 import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
 import br.com.danielassumpcao.skymovies.ui.listeners.MoviesListener
-import br.com.danielassumpcao.skymovies.ui.presenter.MainPresenter
+import br.com.danielassumpcao.skymovies.ui.presenter.MoviePresenter
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
+class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
 
+    private lateinit var binding: ActivityMovieBinding
 
-    private lateinit var binding: ActivityMainBinding
+    val presenter: MoviePresenter = MoviePresenter()
 
-    val presenter: MainPresenter = MainPresenter()
 
-    val movies: MutableList<Movie> = mutableListOf()
-
-    lateinit var adapter: MainAdapter
+    lateinit var adapter: MovieAdapter
 
     var offset = 0
     var totalItens = Int.MAX_VALUE
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMovieBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.toolbar)
@@ -59,10 +57,10 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                 binding.swipeLayout.isRefreshing = false
             }
         }
-        this.adapter = MainAdapter(movies, this, this)
+        adapter = MovieAdapter(mutableListOf(), this, this)
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.mainRV.layoutManager = layoutManager
-        binding.mainRV.adapter = this.adapter
+        binding.mainRV.adapter = adapter
         binding.mainRV.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -71,7 +69,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                     val lastVisible = getLastMovieScreen(
                         gridLayoutManager?.findLastCompletelyVisibleItemPositions(null)
                     )
-                    if (lastVisible == movies.size - 1) {
+                    if (lastVisible == adapter.getItemCount() - 1) {
                         isLoadingList = true
                         loadItens()
                     }
@@ -81,8 +79,8 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
     private fun loadItens() {
-        if (movies.size < totalItens) {
-            if (movies.size > 0 && isLoadingList) {
+        if (adapter.getItemCount() < totalItens) {
+            if (adapter.getItemCount() > 0 && isLoadingList) {
                 onLoadingPage(true)
             } else {
                 binding.swipeLayout.isRefreshing = true
@@ -93,9 +91,10 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
     private fun stopMiddleScreenLoading() {
-        if (movies.size > 0) {
+        if (adapter.getItemCount() > 0) {
             onLoadingPage(false)
         }
+        binding.swipeLayout.isRefreshing = false
         isLoadingList = false
     }
 
@@ -114,8 +113,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     private fun clearScreen() {
         offset = 0
-        this.movies.clear()
-        this.adapter.notifyDataSetChanged()
+        adapter.clear()
     }
 
     /*
@@ -124,16 +122,12 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     override fun onMoviesSucess(movies: List<Movie>, totalItens: Int) {
         this.totalItens = totalItens
+        adapter.addMovies(movies)
         stopMiddleScreenLoading()
-
-        this.movies.addAll(movies)
-        this.adapter.notifyDataSetChanged()
-        this.binding.swipeLayout.isRefreshing = false
-
     }
 
     override fun onMoviesFailure() {
-        this.binding.swipeLayout.isRefreshing = false
+        binding.swipeLayout.isRefreshing = false
         isLoadingList = false
         binding.loadingLL.visibility = View.GONE
 
