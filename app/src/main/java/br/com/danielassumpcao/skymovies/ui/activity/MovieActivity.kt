@@ -9,24 +9,24 @@ import br.com.danielassumpcao.skymovies.R
 import br.com.danielassumpcao.skymovies.databinding.ActivityMovieBinding
 import br.com.danielassumpcao.skymovies.models.Movie
 import br.com.danielassumpcao.skymovies.ui.adapter.MovieAdapter
+import br.com.danielassumpcao.skymovies.ui.contract.MovieContract
 import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
-import br.com.danielassumpcao.skymovies.ui.listeners.MoviesListener
 import br.com.danielassumpcao.skymovies.ui.presenter.MoviePresenter
 import com.google.android.material.snackbar.Snackbar
 
-class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
+class MovieActivity : AppCompatActivity(), MovieClickListener, MovieContract.View {
 
 
     private lateinit var binding: ActivityMovieBinding
 
-    val presenter: MoviePresenter = MoviePresenter()
+    private val presenter: MoviePresenter = MoviePresenter(this)
 
 
-    lateinit var adapter: MovieAdapter
+    private lateinit var adapter: MovieAdapter
 
-    var offset = 0
-    var totalItens = Int.MAX_VALUE
-    var isLoadingList = false
+    private var offset = 0
+    private var totalItens = Int.MAX_VALUE
+    private var isLoadingList = false
 
     /*
     * Lifecycle
@@ -66,10 +66,9 @@ class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                 super.onScrolled(recyclerView, dx, dy)
                 val gridLayoutManager = recyclerView.layoutManager as StaggeredGridLayoutManager?
                 if (!isLoadingList) {
-                    val lastVisible = getLastMovieScreen(
-                        gridLayoutManager?.findLastCompletelyVisibleItemPositions(null)
-                    )
-                    if (lastVisible == adapter.getItemCount() - 1) {
+                    val lastVisible = gridLayoutManager?.findLastCompletelyVisibleItemPositions(null)?.maxOrNull()
+
+                    if (lastVisible == adapter.itemCount - 1) {
                         isLoadingList = true
                         loadItens()
                     }
@@ -79,24 +78,17 @@ class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
     private fun loadItens() {
-        if (adapter.getItemCount() < totalItens) {
-            if (adapter.getItemCount() > 0 && isLoadingList) {
+        if (adapter.itemCount < totalItens) {
+            if (adapter.itemCount > 0 && isLoadingList) {
                 onLoadingPage(true)
             } else {
                 binding.swipeLayout.isRefreshing = true
             }
-            presenter.getMovies(offset, this)
+            presenter.getMovies(offset)
             offset += presenter.pageSize
         }
     }
 
-    private fun stopMiddleScreenLoading() {
-        if (adapter.getItemCount() > 0) {
-            onLoadingPage(false)
-        }
-        binding.swipeLayout.isRefreshing = false
-        isLoadingList = false
-    }
 
     private fun onLoadingPage(isLoading: Boolean) {
         if (isLoading) {
@@ -106,31 +98,31 @@ class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         }
     }
 
-
-    private fun getLastMovieScreen(movieList: IntArray?): Int? {
-        return movieList?.maxOrNull()
-    }
-
     private fun clearScreen() {
         offset = 0
         adapter.clear()
     }
 
+
     /*
     * Override Functions
     * */
 
-    override fun onMoviesSucess(movies: List<Movie>, totalItens: Int) {
-        this.totalItens = totalItens
-        adapter.addMovies(movies)
-        stopMiddleScreenLoading()
-    }
-
-    override fun onMoviesFailure() {
+    override fun stopLoading() {
         binding.swipeLayout.isRefreshing = false
         isLoadingList = false
         binding.loadingLL.visibility = View.GONE
+        if (adapter.itemCount > 0) {
+            onLoadingPage(false)
+        }
+    }
 
+    override fun onMoviesSuccess(movies: List<Movie>, totalItens: Int) {
+        this.totalItens = totalItens
+        adapter.addMovies(movies)
+    }
+
+    override fun onMoviesFailure() {
         val newOffset = offset - presenter.pageSize
         if (newOffset >= 0) {
             offset = newOffset
@@ -139,9 +131,9 @@ class MovieActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         }
 
         Snackbar.make(binding.mainRV, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.reload, View.OnClickListener {
+            .setAction(R.string.reload) {
                 loadItens()
-            }).show()
+            }.show()
     }
 
     override fun onMovieClickListener(clickedMovie: Movie) {

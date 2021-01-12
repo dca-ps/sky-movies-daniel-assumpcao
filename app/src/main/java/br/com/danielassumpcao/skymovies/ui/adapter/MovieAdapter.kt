@@ -12,7 +12,11 @@ import br.com.danielassumpcao.skymovies.models.Movie
 import br.com.danielassumpcao.skymovies.ui.listeners.MovieClickListener
 import com.bumptech.glide.Glide
 
-class MovieAdapter(val movies: MutableList<Movie>, val context: Context, val listener: MovieClickListener) :
+class MovieAdapter(
+    private val movies: MutableList<Movie>,
+    private val context: Context,
+    private val listener: MovieClickListener
+) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,14 +25,14 @@ class MovieAdapter(val movies: MutableList<Movie>, val context: Context, val lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val thisMovie: Movie = movies.get(position)
+        val thisMovie: Movie = movies[position]
 
         holder.movieTitleTV.text = thisMovie.title?.title
         Glide.with(context)
             .load(thisMovie.title?.image?.url)
             .placeholder(R.drawable.sky_placeholder)
             .centerInside()
-            .into(holder.movieCoverIV);
+            .into(holder.movieCoverIV)
 
         holder.movieCoverIV.setOnClickListener {
             listener.onMovieClickListener(thisMovie)
@@ -39,12 +43,12 @@ class MovieAdapter(val movies: MutableList<Movie>, val context: Context, val lis
         return movies.size
     }
 
-    fun addMovies(newMovies: List<Movie>){
-        movies.addAll(movies)
+    fun addMovies(newMovies: List<Movie>) {
+        movies.addAll(newMovies)
         notifyDataSetChanged()
     }
 
-    fun clear(){
+    fun clear() {
         movies.clear()
         notifyDataSetChanged()
     }
@@ -54,7 +58,6 @@ class MovieAdapter(val movies: MutableList<Movie>, val context: Context, val lis
         val movieCoverIV: ImageView = itemView.findViewById(R.id.movieCoverIV)
 
     }
-
 
 
 }

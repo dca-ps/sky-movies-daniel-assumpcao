@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
             .load(movie?.title?.image?.url)
             .placeholder(R.drawable.sky_placeholder)
             .centerCrop()
-            .into(binding.coverIV);
+            .into(binding.coverIV)
 
     }
 

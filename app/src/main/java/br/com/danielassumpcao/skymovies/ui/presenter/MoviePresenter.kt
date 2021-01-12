@@ -3,42 +3,42 @@ package br.com.danielassumpcao.skymovies.ui.presenter
 import br.com.danielassumpcao.skymovies.models.Movie
 import br.com.danielassumpcao.skymovies.services.MoviesService
 import br.com.danielassumpcao.skymovies.services.RetrofitConfig
-import br.com.danielassumpcao.skymovies.ui.listeners.MoviesListener
+import br.com.danielassumpcao.skymovies.ui.contract.MovieContract
+import br.com.danielassumpcao.skymovies.utils.MovieUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MoviePresenter {
+class MoviePresenter(private val view: MovieContract.View) : MovieContract.Presenter {
+
 
     val pageSize = 4
 
-    var totalPage: Int = 0
-    var totalMovies: Int = 0
+    private var totalPage: Int = 0
+    private var totalMovies: Int = 0
 
-    lateinit var allMoviesNames: List<String>
-    val moviesDetail: ArrayList<Movie> = ArrayList()
+    private lateinit var allMoviesNames: List<String>
+    private val moviesDetail: ArrayList<Movie> = ArrayList()
 
 
-    fun getMovies(offset: Int, listener: MoviesListener) {
-        if (this::allMoviesNames.isInitialized && allMoviesNames.size > 0) {
+    override fun getMovies(offset: Int) {
+        if (this::allMoviesNames.isInitialized && allMoviesNames.isNotEmpty()) {
             val pageList: List<String> = allMoviesNames.subList(offset, offset + pageSize)
             totalPage = pageList.size
             moviesDetail.clear()
             for (movie in pageList) {
-                getMovieDetail(sanitizeMovieId(movie), listener)
+                getMovieDetail(MovieUtils.sanitizeMovieId(movie))
             }
 
         } else {
-            getMoviesNames(listener)
+            getMoviesNames()
         }
 
     }
 
-    fun sanitizeMovieId(movie: String): String {
-        return movie.removePrefix("/title/").removeSuffix("/")
-    }
 
-    private fun getMoviesNames(listener: MoviesListener) {
+
+    override fun getMoviesNames() {
         val service: MoviesService = RetrofitConfig.getMoviesService()
 
         val call = service.getPopularMovies()
@@ -49,22 +49,24 @@ class MoviePresenter {
                     moviesDetail.clear()
                     allMoviesNames = it
                     totalMovies = it.size
-                    getMovies(0, listener)
+                    getMovies(0)
 
 
                 } ?: run {
-                    listener.onMoviesFailure()
+                    view.stopLoading()
+                    view.onMoviesFailure()
                 }
             }
 
             override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                listener.onMoviesFailure()
+                view.stopLoading()
+                view.onMoviesFailure()
             }
         })
     }
 
 
-    private fun getMovieDetail(movie: String, listener: MoviesListener) {
+    override fun getMovieDetail(movie: String) {
         val service: MoviesService = RetrofitConfig.getMoviesService()
 
         val call = service.getMovieDetail(movie)
@@ -74,15 +76,18 @@ class MoviePresenter {
                 response.body()?.let {
                     moviesDetail.add(it)
                     if (moviesDetail.size == totalPage) {
-                        listener.onMoviesSucess(moviesDetail, totalMovies)
+                        view.stopLoading()
+                        view.onMoviesSuccess(moviesDetail, totalMovies)
                     }
                 } ?: run {
-                    listener.onMoviesFailure()
+                    view.stopLoading()
+                    view.onMoviesFailure()
                 }
             }
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
-                listener.onMoviesFailure()
+                view.stopLoading()
+                view.onMoviesFailure()
             }
         })
     }
