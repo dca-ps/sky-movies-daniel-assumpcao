@@ -20,9 +20,9 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    lateinit var presenter: MainPresenter
+    val presenter: MainPresenter = MainPresenter()
 
-    lateinit var movies: MutableList<Movie>
+    val movies: MutableList<Movie> = mutableListOf()
 
     lateinit var adapter: MainAdapter
 
@@ -41,9 +41,6 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         setContentView(view)
         setSupportActionBar(binding.toolbar)
 
-        presenter = MainPresenter()
-        movies = mutableListOf()
-
         setupViews()
         loadItens()
     }
@@ -53,7 +50,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     * Logic Functions
     * */
 
-    fun setupViews() {
+    private fun setupViews() {
         binding.swipeLayout.setOnRefreshListener {
             if (!isLoadingList) {
                 clearScreen()
@@ -83,7 +80,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         })
     }
 
-    fun loadItens() {
+    private fun loadItens() {
         if (movies.size < totalItens) {
             if (movies.size > 0 && isLoadingList) {
                 onLoadingPage(true)
@@ -91,18 +88,18 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
                 binding.swipeLayout.isRefreshing = true
             }
             presenter.getMovies(offset, this)
-            offset += presenter.PAGE_SIZE
+            offset += presenter.pageSize
         }
     }
 
-    fun stopMiddleScreenLoading() {
+    private fun stopMiddleScreenLoading() {
         if (movies.size > 0) {
             onLoadingPage(false)
         }
         isLoadingList = false
     }
 
-    fun onLoadingPage(isLoading: Boolean) {
+    private fun onLoadingPage(isLoading: Boolean) {
         if (isLoading) {
             binding.loadingLL.visibility = View.VISIBLE
         } else {
@@ -111,11 +108,11 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
     }
 
 
-    fun getLastMovieScreen(movieList: IntArray?): Int? {
+    private fun getLastMovieScreen(movieList: IntArray?): Int? {
         return movieList?.maxOrNull()
     }
 
-    fun clearScreen() {
+    private fun clearScreen() {
         offset = 0
         this.movies.clear()
         this.adapter.notifyDataSetChanged()
@@ -140,7 +137,7 @@ class MainActivity : AppCompatActivity(), MoviesListener, MovieClickListener {
         isLoadingList = false
         binding.loadingLL.visibility = View.GONE
 
-        val newOffset = offset - presenter.PAGE_SIZE
+        val newOffset = offset - presenter.pageSize
         if (newOffset >= 0) {
             offset = newOffset
         } else {

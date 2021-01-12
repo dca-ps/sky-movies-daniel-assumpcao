@@ -10,7 +10,7 @@ import org.junit.Test
 
 class SkyTest {
 
-    lateinit var movieTest: Movie
+    lateinit val movieTest: Movie
 
     @Before
     fun before(){

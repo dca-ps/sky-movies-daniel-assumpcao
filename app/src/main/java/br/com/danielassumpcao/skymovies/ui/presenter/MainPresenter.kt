@@ -10,18 +10,18 @@ import retrofit2.Response
 
 class MainPresenter {
 
-    val PAGE_SIZE = 4
+    val pageSize = 4
 
     var totalPage: Int = 0
     var totalMovies: Int = 0
 
     lateinit var allMoviesNames: List<String>
-    lateinit var moviesDetail: ArrayList<Movie>
+    val moviesDetail: ArrayList<Movie> = ArrayList()
 
 
     fun getMovies(offset: Int, listener: MoviesListener) {
         if (this::allMoviesNames.isInitialized && allMoviesNames.size > 0) {
-            val pageList: List<String> = allMoviesNames.subList(offset, offset + PAGE_SIZE)
+            val pageList: List<String> = allMoviesNames.subList(offset, offset + pageSize)
             totalPage = pageList.size
             moviesDetail.clear()
             for (movie in pageList) {
@@ -39,14 +39,14 @@ class MainPresenter {
     }
 
     private fun getMoviesNames(listener: MoviesListener) {
-        val service: MoviesService = RetrofitConfig().getMoviesService()
+        val service: MoviesService = RetrofitConfig.getMoviesService()
 
         val call = service.getPopularMovies()
 
         call.enqueue(object : Callback<List<String>> {
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                 response.body()?.let {
-                    moviesDetail = ArrayList()
+                    moviesDetail.clear()
                     allMoviesNames = it
                     totalMovies = it.size
                     getMovies(0, listener)
@@ -65,7 +65,7 @@ class MainPresenter {
 
 
     private fun getMovieDetail(movie: String, listener: MoviesListener) {
-        val service: MoviesService = RetrofitConfig().getMoviesService()
+        val service: MoviesService = RetrofitConfig.getMoviesService()
 
         val call = service.getMovieDetail(movie)
 

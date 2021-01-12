@@ -12,19 +12,19 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
-class RetrofitConfig {
+object RetrofitConfig {
 
-    var retrofit: Retrofit;
+    val retrofit: Retrofit;
 
     init {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
         val httpClient = OkHttpClient.Builder()
-        httpClient.addInterceptor(logging)
-        httpClient.connectTimeout(5, TimeUnit.MINUTES)
-            .writeTimeout(5, TimeUnit.MINUTES)
-            .readTimeout(5, TimeUnit.MINUTES);
+        if (BuildConfig.DEBUG) httpClient.addInterceptor(logging)
+        httpClient.connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS);
         httpClient.addInterceptor(object : Interceptor {
             @Throws(IOException::class)
             override fun intercept(chain: Interceptor.Chain): Response {

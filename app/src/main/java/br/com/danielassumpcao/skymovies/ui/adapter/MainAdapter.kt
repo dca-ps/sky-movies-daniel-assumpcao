@@ -23,9 +23,9 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val thisMovie: Movie = movies.get(position)
 
-        holder.movieTitleTV.text = thisMovie.title.title
+        holder.movieTitleTV.text = thisMovie.title?.title
         Glide.with(context)
-            .load(thisMovie.title.image.url)
+            .load(thisMovie.title?.image?.url)
             .placeholder(R.drawable.sky_placeholder)
             .centerInside()
             .into(holder.movieCoverIV);
@@ -40,8 +40,8 @@ class MainAdapter(val movies: List<Movie>, val context: Context, val listener: M
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var movieTitleTV: TextView = itemView.findViewById(R.id.movieTitleTV)
-        var movieCoverIV: ImageView = itemView.findViewById(R.id.movieCoverIV)
+        val movieTitleTV: TextView = itemView.findViewById(R.id.movieTitleTV)
+        val movieCoverIV: ImageView = itemView.findViewById(R.id.movieCoverIV)
 
     }
 

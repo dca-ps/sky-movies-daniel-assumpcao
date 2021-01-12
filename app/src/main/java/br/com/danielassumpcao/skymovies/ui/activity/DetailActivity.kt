@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.danielassumpcao.skymovies.R
 import br.com.danielassumpcao.skymovies.databinding.ActivityDetailBinding
 import br.com.danielassumpcao.skymovies.models.Movie
+import br.com.danielassumpcao.skymovies.utils.MovieUtils.Companion.getHourTime
+import br.com.danielassumpcao.skymovies.utils.MovieUtils.Companion.getReleaseYear
 import com.bumptech.glide.Glide
 
 
@@ -35,24 +37,21 @@ class DetailActivity : AppCompatActivity() {
         setupViews(movie)
     }
 
-    fun setupViews(movie: Movie?) {
-
+    private fun setupViews(movie: Movie?) {
 
         binding.backButton.setOnClickListener{
             onBackPressed()
         }
         binding.titleTV.text = movie?.title?.title
         binding.releaseYearTV.text = movie?.getReleaseYear()
+
         binding.durationTV.text = movie?.getHourTime()
 
-        lateinit var overViewText: String
+        var overViewText: String = getString(R.string.detail_no_overview)
 
         movie?.plotOutline?.let{
             overViewText = it.text
-        } ?: run {
-            overViewText = getString(R.string.detail_no_overview)
         }
-
 
         binding.overviewTV.text = overViewText
         binding.genreTV.text = movie?.genres?.first()
