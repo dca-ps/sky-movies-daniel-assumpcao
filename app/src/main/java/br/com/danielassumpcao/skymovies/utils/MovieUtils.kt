@@ -3,8 +3,7 @@ package br.com.danielassumpcao.skymovies.utils
 import br.com.danielassumpcao.skymovies.models.Movie
 import java.time.LocalDate
 
-class MovieUtils {
-    companion object {
+object MovieUtils {
 
         fun Movie.getHourTime(): String {
             var durationMinutes = 0
@@ -25,8 +24,6 @@ class MovieUtils {
         fun sanitizeMovieId(movie: String): String {
             return movie.removePrefix("/title/").removeSuffix("/")
         }
-    }
-
 
 }
 

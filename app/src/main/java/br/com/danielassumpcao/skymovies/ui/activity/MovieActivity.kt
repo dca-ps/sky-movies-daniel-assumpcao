@@ -111,7 +111,6 @@ class MovieActivity : AppCompatActivity(), MovieClickListener, MovieContract.Vie
     override fun stopLoading() {
         binding.swipeLayout.isRefreshing = false
         isLoadingList = false
-        binding.loadingLL.visibility = View.GONE
         if (adapter.itemCount > 0) {
             onLoadingPage(false)
         }

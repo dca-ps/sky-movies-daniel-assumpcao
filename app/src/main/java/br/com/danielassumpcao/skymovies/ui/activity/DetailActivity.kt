@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.danielassumpcao.skymovies.R
 import br.com.danielassumpcao.skymovies.databinding.ActivityDetailBinding
 import br.com.danielassumpcao.skymovies.models.Movie
-import br.com.danielassumpcao.skymovies.utils.MovieUtils.Companion.getHourTime
-import br.com.danielassumpcao.skymovies.utils.MovieUtils.Companion.getReleaseYear
+import br.com.danielassumpcao.skymovies.utils.MovieUtils.getHourTime
+import br.com.danielassumpcao.skymovies.utils.MovieUtils.getReleaseYear
 import com.bumptech.glide.Glide
 
 
